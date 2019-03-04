@@ -13,6 +13,7 @@
                     <b-input-group-text slot="prepend">Search for:</b-input-group-text>
                     <b-input id="filter-input"
                              v-model="filterInput"
+                             @keyup="filterInput = $event.target.value"
                              placeholder="Input the filter here"></b-input>
                     <b-input-group-append>
                         <b-button @click="clearFilter">Clear</b-button>

@@ -14,6 +14,9 @@
                     <b-input id="filter-input"
                              v-model="filterInput"
                              placeholder="Input the filter here"></b-input>
+                    <b-input-group-append>
+                        <b-button @click="clearFilter">Clear</b-button>
+                    </b-input-group-append>
                 </b-input-group>
             </b-col>
         </b-row>
@@ -64,10 +67,15 @@
                 this.filterTableData(this.filterInput)
             }
         },
-        methods: mapActions({
-            loadTableData: 'loadTableData',
-            filterTableData: 'filterTableData'
-        }),
+        methods: {
+            clearFilter() {
+                this.filterInput = ''
+            },
+            ...mapActions({
+                loadTableData: 'loadTableData',
+                filterTableData: 'filterTableData'
+            })
+        },
         created() {
             this.loadTableData()
         }

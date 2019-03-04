@@ -13,12 +13,7 @@
                     <b-input-group-text slot="prepend">Search for:</b-input-group-text>
                     <b-input id="filter-input"
                              v-model="filterInput"
-                             placeholder="Input the filter here"
-                             @keypress.enter="applyFilter"></b-input>
-                    <b-input-group-append>
-                        <b-button @click="applyFilter">OK</b-button>
-                        <b-button variant="outline-secondary" @click="disableFilter">Disable</b-button>
-                    </b-input-group-append>
+                             placeholder="Input the filter here"></b-input>
                 </b-input-group>
             </b-col>
         </b-row>
@@ -27,10 +22,7 @@
                  responsive bordered striped show-empty
                  :per-page="perPage"
                  :current-page="currentPage"
-                 :fields="fields"
-                 :items="tableData"
-                 :filter="filter"
-                 @filtered="onFiltered">
+                 :items="filteredTableData">
             <template slot="empty" slot-scope="scope">
                 <span>{{ scope.emptyText }}</span>
             </template>
@@ -39,60 +31,52 @@
             </template>
         </b-table>
 
-        <b-pagination v-model="currentPage" :per-page="perPage" :total-rows="totalRows"></b-pagination>
+        <b-pagination v-model="currentPage" :per-page="perPage" :total-rows="filteredTableData.length"></b-pagination>
     </div>
 </template>
 
 <script>
-    import {mapState} from "vuex";
+    import {mapActions, mapState} from "vuex";
 
     export default {
         name: 'DataTable',
         data() {
             return {
                 perPageSelectOptions: [10, 25, 50, 100],
-                fields: ['id', 'first_name', 'last_name', 'email', 'phone'],
                 perPage: 10,
                 currentPage: 1,
-                filter: '',
-                filterInput: '',
-                totalRows: 0
+                filterInput: ''
             }
         },
         computed: {
             ...mapState({
-                tableData: state => state.tableData
+                filteredTableData: state => state.filteredTableData
             })
         },
         watch: {
-            tableData(newValue) {
-                this.totalRows = newValue.length
-                this.currentPage = 1
-            }
-        },
-        methods: {
-            applyFilter() {
-                this.filter = this.filterInput
-            },
-            disableFilter() {
-                this.filterInput = ''
-                this.filter = ''
+            perPage() {
                 this.currentPage = 1
             },
-            onFiltered(data, length) {
-                this.totalRows = length
+            filteredTableData() {
                 this.currentPage = 1
+            },
+            filterInput() {
+                this.filterTableData(this.filterInput)
             }
         },
+        methods: mapActions({
+            loadTableData: 'loadTableData',
+            filterTableData: 'filterTableData'
+        }),
         created() {
-            this.$store.dispatch('loadTableData')
+            this.loadTableData()
         }
     }
 </script>
 
 <style>
     .table {
-        margin: 0;
+        margin: 0 !important;
     }
 
     .table-responsive {

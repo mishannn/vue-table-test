@@ -1,28 +1,36 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <div id="app">
+        <b-container>
+            <b-card no-body>
+                <b-tabs card>
+                    <b-tab title="Text" active>
+                        <simple-text/>
+                    </b-tab>
+                    <b-tab title="Table">
+                        <data-table/>
+                    </b-tab>
+                </b-tabs>
+            </b-card>
+        </b-container>
+    </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+    import SimpleText from './components/SimpleText'
+    import DataTable from "./components/DataTable";
 
-export default {
-  name: 'app',
-  components: {
-    HelloWorld
-  }
-}
+    export default {
+        name: 'App',
+        components: {DataTable, SimpleText}
+    }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+<style scoped>
+    :focus {
+        outline: none;
+    }
+
+    #app {
+        margin-top: 1rem;
+    }
 </style>

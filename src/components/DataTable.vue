@@ -1,14 +1,14 @@
 <template>
-    <div class="data-table">
+    <div class="data-table-tab">
         <b-row class="actions-row">
-            <b-col md="6">
+            <b-col class="actions-col" md="6" xs="12">
                 <b-input-group>
                     <b-input-group-text slot="prepend">Show items on page:</b-input-group-text>
                     <b-select id="per-page-select" v-model="perPage" :options="perPageSelectOptions"></b-select>
                 </b-input-group>
             </b-col>
 
-            <b-col md="6">
+            <b-col class="actions-col" md="6" xs="12">
                 <b-input-group>
                     <b-input-group-text slot="prepend">Search for:</b-input-group-text>
                     <b-input id="filter-input"
@@ -23,7 +23,8 @@
             </b-col>
         </b-row>
 
-        <b-table bordered striped show-empty
+        <b-table id="data-table"
+                 responsive bordered striped show-empty
                  :per-page="perPage"
                  :current-page="currentPage"
                  :fields="fields"
@@ -89,8 +90,21 @@
     }
 </script>
 
-<style scoped>
-    .actions-row {
+<style>
+    .table {
+        margin: 0;
+    }
+
+    .table-responsive {
+        margin-bottom: 1rem;
+    }
+
+    .table th,
+    .table td {
+        white-space: nowrap;
+    }
+
+    .actions-row > .actions-col {
         margin-bottom: 1rem;
     }
 </style>

@@ -25,7 +25,7 @@
     }
 </script>
 
-<style scoped>
+<style>
     :focus {
         outline: none;
     }

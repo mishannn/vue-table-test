@@ -1,5 +1,5 @@
 <template>
-    <div class="simple-text">
+    <div class="simple-text-tab">
         <h3>Simple text</h3>
         <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus ornare magna eleifend, ultricies lacus ornare, pretium risus. Sed
@@ -48,7 +48,3 @@
         name: 'SimpleText'
     }
 </script>
-
-<style scoped>
-
-</style>

@@ -39,7 +39,8 @@
 </template>
 
 <script>
-    import {mapActions, mapState} from "vuex";
+    import {mapActions, mapState} from 'vuex';
+    import _ from 'lodash'
 
     export default {
         name: 'DataTable',
@@ -64,7 +65,7 @@
                 this.currentPage = 1
             },
             filterInput() {
-                this.filterTableData(this.filterInput)
+                _.debounce(() => this.filterTableData(this.filterInput), 100)()
             }
         },
         methods: {

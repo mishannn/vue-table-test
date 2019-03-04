@@ -26,13 +26,17 @@
                  responsive bordered striped show-empty
                  :per-page="perPage"
                  :current-page="currentPage"
-                 :items="filteredTableData">
+                 :items="filteredTableData"
+                 :busy="tableBusy">
             <template slot="empty" slot-scope="scope">
                 <span>{{ scope.emptyText }}</span>
             </template>
             <template slot="emptyfiltered" slot-scope="scope">
                 <span>{{ scope.emptyFilteredText }}</span>
             </template>
+            <!--<template slot="table-busy" class="text-center text-danger my-2">-->
+                <!--<span>Loading...</span>-->
+            <!--</template>-->
         </b-table>
 
         <b-pagination v-model="currentPage" :per-page="perPage" :total-rows="filteredTableData.length"></b-pagination>
@@ -50,7 +54,8 @@
                 perPageSelectOptions: [10, 25, 50, 100],
                 perPage: 10,
                 currentPage: 1,
-                filterInput: ''
+                filterInput: '',
+                tableBusy: true
             }
         },
         computed: {
@@ -66,7 +71,15 @@
                 this.currentPage = 1
             },
             filterInput() {
-                _.debounce(() => this.filterTableData(this.filterInput), 100)()
+                if (this.filteredTableData.length > 0) {
+                    this.tableBusy = true
+                }
+
+                _.debounce(() => {
+                    this.filterTableData(this.filterInput).finally(() => {
+                        this.tableBusy = false
+                    })
+                }, 300)()
             }
         },
         methods: {
@@ -79,7 +92,9 @@
             })
         },
         created() {
-            this.loadTableData()
+            this.loadTableData().finally(() => {
+                this.tableBusy = false
+            })
         }
     }
 </script>

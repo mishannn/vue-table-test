@@ -11,28 +11,35 @@ export default new Vuex.Store({
     },
     actions: {
         loadTableData({commit}) {
-            TableApi.getData(tableData => {
-                commit('setTableData', tableData)
+            return new Promise(resolve => {
+                TableApi.getData(tableData => {
+                    commit('setTableData', tableData)
+                    resolve()
+                })
             })
         },
         filterTableData({state, commit}, filter) {
-            if (filter === '') {
-                commit('setFilteredTableData', state.tableData)
-                return
-            }
+            return new Promise(resolve => {
+                if (filter === '') {
+                    commit('setFilteredTableData', state.tableData)
+                    resolve()
+                    return
+                }
 
-            const promise = new Promise((resolve) => {
-                resolve(state.tableData.filter(el => {
-                    return (el.id.toString().toLowerCase().indexOf(filter.toLowerCase()) !== -1)
-                        || (el.first_name.toLowerCase().indexOf(filter.toLowerCase()) !== -1)
-                        || (el.last_name.toLowerCase().indexOf(filter.toLowerCase()) !== -1)
-                        || (el.email.toLowerCase().indexOf(filter.toLowerCase()) !== -1)
-                        || (el.phone.toLowerCase().indexOf(filter.toLowerCase()) !== -1)
-                }))
-            })
+                const promise = new Promise((resolve) => {
+                    resolve(state.tableData.filter(el => {
+                        return (el.id.toString().toLowerCase().indexOf(filter.toLowerCase()) !== -1)
+                            || (el.first_name.toLowerCase().indexOf(filter.toLowerCase()) !== -1)
+                            || (el.last_name.toLowerCase().indexOf(filter.toLowerCase()) !== -1)
+                            || (el.email.toLowerCase().indexOf(filter.toLowerCase()) !== -1)
+                            || (el.phone.toLowerCase().indexOf(filter.toLowerCase()) !== -1)
+                    }))
+                })
 
-            promise.then((filtered) => {
-                commit('setFilteredTableData', filtered)
+                promise.then((filtered) => {
+                    commit('setFilteredTableData', filtered)
+                    resolve()
+                });
             });
         }
     },

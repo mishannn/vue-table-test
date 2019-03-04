@@ -11,9 +11,13 @@
             <b-col md="6">
                 <b-input-group>
                     <b-input-group-text slot="prepend">Search for:</b-input-group-text>
-                    <b-input id="filter-input" v-model="filterInput" placeholder="Input the filter here" @keypress.enter="applyFilter"></b-input>
+                    <b-input id="filter-input"
+                             v-model="filterInput"
+                             placeholder="Input the filter here"
+                             @keypress.enter="applyFilter"></b-input>
                     <b-input-group-append>
                         <b-button @click="applyFilter">OK</b-button>
+                        <b-button variant="outline-secondary" @click="disableFilter">Disable</b-button>
                     </b-input-group-append>
                 </b-input-group>
             </b-col>
@@ -68,6 +72,11 @@
         methods: {
             applyFilter() {
                 this.filter = this.filterInput
+            },
+            disableFilter() {
+                this.filterInput = ''
+                this.filter = ''
+                this.currentPage = 1
             },
             onFiltered(data, length) {
                 this.totalRows = length
